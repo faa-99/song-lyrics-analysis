@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+import time
 
 from utils import query
 from viz import plot_song_themes
@@ -21,6 +22,10 @@ if st.button("Classify") and txt != "":
             "inputs": txt,
         }
     )
-    df = pd.DataFrame(output[0])
-    theme_plot = plot_song_themes(df)
-    st.pyplot(theme_plot)
+    while output is None:
+        time.sleep(3)
+
+    if output is not None:
+        df = pd.DataFrame(output[0])
+        theme_plot = plot_song_themes(df)
+        st.pyplot(theme_plot)
